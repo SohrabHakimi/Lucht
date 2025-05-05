@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Luchtsnelheid Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        label, select, input {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: #f0b400;
+            border: none;
+            border-radius: 5px;
+            color: white;
+        }
+
+        button:hover {
+            background-color: #f08d00;
+        }
+
+        #resultaat {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .uitleg {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #fff4d2;
+            border-left: 6px solid #f0b400;
+            border-radius: 5px;
+        }
+
+        .airspeeds {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .airspeeds h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #333;
+        }
+
+        .airspeeds ul {
+            list-style-type: none;
+            padding-left: 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .airspeeds li {
+            margin-bottom: 15px;
+        }
+
+        .airspeeds li span {
+            display: block;
+            font-weight: bold;
+            margin-top: 5px;
+            color: #f0b400;
+        }
+
+        footer {
+            margin-top: 40px;
+            color: #777;
+            text-align: center;
+        }
+
+        .example {
+            font-weight: bold;
+            color: #f0b400;
+        }
+    </style>
+</head>
+<body>
+    <h1>Luchtsnelheid Calculator</h1>
+
+    <label for="diameter">Diameter (mm):</label>
+    <select id="diameter">
+        <option value="80">80mm</option>
+        <option value="100">100mm</option>
+        <option value="125">125mm</option>
+        <option value="150">150mm</option>
+        <option value="160">160mm</option>
+        <option value="180">180mm</option>
+        <option value="200">200mm</option>
+        <option value="250">250mm</option>
+        <option value="300">300mm</option>
+        <option value="315">315mm</option>
+        <option value="400">400mm</option>
+        <option value="450">450mm</option>
+        <option value="500">500mm</option>
+        <option value="other">Anders</option>
+    </select>
+
+    <br><br>
+
+    <label for="luchtdebiet">Luchtdebiet (m³/h):</label>
+    <input type="number" id="luchtdebiet" placeholder="Bijv. 500">
+
+    <br><br>
+
+    <button onclick="berekenLuchtsnelheid()">Bereken</button>
+
+    <p id="resultaat"></p>
+
+    <div class="uitleg">
+        <strong class="example">Voorbeeld:</strong> <br>
+        Als je in een kamer 58 m³/h wilt toevoeren, vul je dit getal in bij <em>Luchtdebiet</em>. Kies vervolgens een geschikte kanaaldiameter. Het doel is om een luchtsnelheid te krijgen die binnen de richtlijnen valt zoals aangegeven in de lijst hieronder.<br><br>
+        Bekijk de maximale luchtsnelheden per type systeem en zorg ervoor dat de berekende luchtsnelheid niet te hoog is, volgens de standaardregels hieronder.
+    </div>
+
+    <div class="airspeeds">
+        <h2>Air speeds in systemen</h2>
+        <ul id="airspeedList"></ul>
+    </div>
+
+    <footer>
+        <p>Sohrab Hakimi</p>
+    </footer>
+
+    <script>
+        function berekenLuchtsnelheid() {
+            var diameter = document.getElementById('diameter').value;
+
+            if (diameter === 'other') {
+                diameter = parseFloat(prompt('Voer de diameter in (mm):'));
+                if (isNaN(diameter) || diameter <= 0) {
+                    alert('Ongeldige invoer voor diameter');
+                    return;
+                }
+            } else {
+                diameter = parseFloat(diameter);
+            }
+
+            var luchtdebiet = parseFloat(document.getElementById('luchtdebiet').value);
+            if (isNaN(luchtdebiet) || luchtdebiet <= 0) {
+                alert('Voer een geldig luchtdebiet in');
+                return;
+            }
+
+            var straal = diameter / 2000;
+            var doorsnede = Math.PI * Math.pow(straal, 2);
+            var luchtsnelheid = luchtdebiet / 3600 / doorsnede;
+
+            document.getElementById('resultaat').innerHTML =
+                "De luchtsnelheid is <strong>" + luchtsnelheid.toFixed(2) + " m/s</strong>.";
+        }
+
+        const airSpeedData = [
+            { text: "Air-conditioning ducting", speed: "max. 5 m/sec (at 50% fanspeed)" },
+            { text: "Air-conditioning supply grill / plenum", speed: "max. 2 m/sec (at 50% fanspeed)" },
+            { text: "Air-conditioning return grill / plenum", speed: "max. 1.8 m/sec (at 50% fanspeed)" },
+            { text: "Fresh-air main ducting in technical areas", speed: "max. 8 m/sec" },
+            { text: "Fresh-air ducting in living areas", speed: "max. 5 m/sec" },
+            { text: "Fresh-air supply ducting", speed: "max. 2 m/sec" },
+            { text: "Fresh-air return ducting", speed: "max. 2 m/sec" }
+        ];
+
+        const lijst = document.getElementById("airspeedList");
+        airSpeedData.forEach(item => {
+            const li = document.createElement("li");
+            li.innerHTML = `${item.text}<span>${item.speed}</span>`;
+            lijst.appendChild(li);
+        });
+    </script>
+</body>
+</html>
