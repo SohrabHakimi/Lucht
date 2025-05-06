@@ -87,15 +87,36 @@
             color: #f0b400;
         }
 
+        .example {
+            font-weight: bold;
+            color: #f0b400;
+        }
+
+        .highlight {
+            color: #f0b400;
+            font-weight: bold;
+        }
+
+        .freshair {
+            max-width: 700px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .freshair h2 {
+            font-size: 22px;
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
         footer {
             margin-top: 40px;
             color: #777;
             text-align: center;
-        }
-
-        .example {
-            font-weight: bold;
-            color: #f0b400;
         }
     </style>
 </head>
@@ -140,6 +161,36 @@
     <div class="airspeeds">
         <h2>Air speeds in systemen</h2>
         <ul id="airspeedList"></ul>
+    </div>
+
+    <div class="freshair">
+        <h2>Fresh Air Berekening Uitleg</h2>
+
+        <div class="uitleg">
+            <strong class="example">Situatie 1: Op basis van personen</strong><br><br>
+            De benodigde verse lucht per persoon is meestal gebaseerd op een vuistregel. 
+            <ul>
+                <li>Standaard: <strong>25 m³/h per persoon</strong></li>
+                <li>Alternatief: <strong>28.8 m³/h per persoon</strong> (afhankelijk van het project)</li>
+            </ul>
+            <p><strong>Voorbeeld:</strong><br>
+            Een crew cabin van 2 personen → 2 × 25 = <span class="highlight">50 m³/h toevoer</span><br>
+            Afzuiging (extractie) = 10% minder → 50 × 0.9 = <span class="highlight">45 m³/h</span></p>
+            <p>Let op: Ruimtes zoals een <strong>galley</strong> of <strong>toilet</strong> vereisen <strong>onderdruk</strong> (meer afzuiging), terwijl slaapruimtes <strong>overdruk</strong> kunnen vereisen.</p>
+        </div>
+
+        <div class="uitleg">
+            <strong class="example">Situatie 2: Op basis van luchtwisselingen (Air Changes per Hour, ACH)</strong><br><br>
+            Als het luchtdebiet niet per persoon wordt berekend, dan wordt vaak gebruik gemaakt van het aantal luchtwisselingen per uur.
+            <ul>
+                <li><strong>Formule:</strong> ACH × Kamervolume (m³) = Benodigd luchtdebiet (m³/h)</li>
+            </ul>
+            <p><strong>Voorbeeld:</strong><br>
+            Ruimtevolume = 25 m³<br>
+            Bij 1 ACH → 1 × 25 = <span class="highlight">25 m³/h</span><br>
+            Bij 2 ACH → 2 × 25 = <span class="highlight">50 m³/h</span></p>
+            <p>Hoe hoger het aantal ACH, hoe meer ventilatie. Dit hangt af van de ruimtefunctie en comforteisen.</p>
+        </div>
     </div>
 
     <footer>
